@@ -150,6 +150,8 @@ services:
     image: ${REGISTRY}/feature-flag-service:${TAG}
     environment:
       PROXY_PREFIX: feature-flag-service
+      # Explicitly disable problem patterns by default
+      ENABLE_CREDIT_CARD_MELTDOWN: "false"
 
   accountservice:
     <<: *default-service
