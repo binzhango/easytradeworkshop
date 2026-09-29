@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: bitcoin-payment-service-config
+  labels:
+    app: bitcoin-payment-service
+    component: payment
+data:
+  # Application Configuration
+  server.port: "8080"
+  spring.application.name: "bitcoin-payment-service"
+  
+  # Database Connection Pool
+  spring.datasource.hikari.maximum-pool-size: "20"
+  spring.datasource.hikari.minimum-idle: "5"
+  spring.datasource.hikari.connection-timeout: "20000"
+  spring.datasource.hikari.idle-timeout: "300000"
+  spring.datasource.hikari.max-lifetime: "600000"
+  
+  # Redis Cache
+  spring.cache.type: "redis"
+  spring.cache.redis.time-to-live: "300000"
+  
+  # Resilience4j Circuit Breaker
+  resilience4j.circuitbreaker.instances.blockchainApi.failureRateThreshold: "50"
+  resilience4j.circuitbreaker.instances.blockchainApi.waitDurationInOpenState: "30s"
+  resilience4j.circuitbreaker.instances.blockchainApi.slidingWindowSize: "10"
+  resilience4j.circuitbreaker.instances.blockchainApi.minimumNumberOfCalls: "5"
+  
+  # Retry Configuration
+  resilience4j.retry.instances.blockchainApi.maxAttempts: "3"
+  resilience4j.retry.instances.blockchainApi.waitDuration: "1s"
+  resilience4j.retry.instances.blockchainApi.enableExponentialBackoff: "true"
+  
+  # Rate Limiter
+  resilience4j.ratelimiter.instances.blockchainApi.limitForPeriod: "10"
+  resilience4j.ratelimiter.instances.blockchainApi.limitRefreshPeriod: "1s"
+  
+  # Logging
+  logging.level.root: "INFO"
+  logging.level.com.dynatrace.easytrade.bitcoinpaymentservice: "DEBUG"

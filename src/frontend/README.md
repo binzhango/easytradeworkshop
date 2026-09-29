@@ -24,3 +24,15 @@ The new fronted has the following features:
 - buy/sell stocks at the current price
 - long buy/sell disposition - set the price and time for the trade and check later if it succeeded
 - order/delete a credit card for your account
+- **Bitcoin payments** - create Bitcoin payment requests with QR codes for stock purchases
+- **Bitcoin wallet** - view your Bitcoin wallet address and balance
+
+### Bitcoin Payment Integration
+
+The frontend now supports Bitcoin payments as an alternative payment method. Users can:
+- Create Bitcoin payment requests with QR codes
+- View their Bitcoin wallet and balance  
+- Track payment confirmations on the blockchain
+- Use Bitcoin to purchase stocks
+
+See [BITCOIN_INTEGRATION.md](./BITCOIN_INTEGRATION.md) for detailed Bitcoin integration documentation.

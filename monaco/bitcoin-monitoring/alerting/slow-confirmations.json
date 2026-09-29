@@ -1,0 +1,40 @@
+{
+  "displayName": "Bitcoin Payment - Slow Confirmations",
+  "rules": [
+    {
+      "severityLevel": "PERFORMANCE",
+      "tagFilter": {
+        "includeMode": "INCLUDE_ANY",
+        "tagFilters": [
+          {
+            "context": "CONTEXTLESS",
+            "key": "component",
+            "value": "bitcoin-confirmation-worker"
+          }
+        ]
+      },
+      "delayInMinutes": 15
+    }
+  ],
+  "managementZoneId": null,
+  "eventTypeFilters": [
+    {
+      "customEventFilter": {
+        "customTitleFilter": {
+          "operator": "CONTAINS",
+          "value": "confirmation",
+          "enabled": true,
+          "negate": false,
+          "caseInsensitive": true
+        },
+        "customDescriptionFilter": {
+          "operator": "CONTAINS",
+          "value": "slow",
+          "enabled": true,
+          "negate": false,
+          "caseInsensitive": true
+        }
+      }
+    }
+  ]
+}

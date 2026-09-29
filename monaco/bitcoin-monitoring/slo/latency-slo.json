@@ -1,0 +1,16 @@
+{
+  "name": "Bitcoin Payment Service - Latency",
+  "description": "Latency SLO for Bitcoin payment creation. Target: 95% of requests complete in less than 200ms over 24 hours",
+  "enabled": true,
+  "metricExpression": "(100)*(builtin:service.response.time:percentile(95):filter(eq(\"dt.entity.service\",\"SERVICE-BITCOIN_PAYMENT\")))",
+  "evaluationType": "AGGREGATE",
+  "filter": "",
+  "target": 200.0,
+  "warning": 150.0,
+  "timeframe": "-1d",
+  "errorBudgetBurnRate": {
+    "burnRateVisualizationEnabled": true,
+    "fastBurnThreshold": 5.0
+  },
+  "useRateMetric": false
+}

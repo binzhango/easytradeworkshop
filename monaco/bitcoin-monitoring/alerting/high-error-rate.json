@@ -1,0 +1,46 @@
+{
+  "displayName": "Bitcoin Payment - High Error Rate",
+  "rules": [
+    {
+      "severityLevel": "PERFORMANCE",
+      "tagFilter": {
+        "includeMode": "INCLUDE_ANY",
+        "tagFilters": [
+          {
+            "context": "CONTEXTLESS",
+            "key": "app",
+            "value": "bitcoin-payment-service"
+          }
+        ]
+      },
+      "delayInMinutes": 5
+    }
+  ],
+  "managementZoneId": null,
+  "eventTypeFilters": [
+    {
+      "predefinedEventFilter": {
+        "eventType": "ERROR_EVENT",
+        "negate": false
+      }
+    },
+    {
+      "customEventFilter": {
+        "customTitleFilter": {
+          "operator": "CONTAINS",
+          "value": "Error rate",
+          "enabled": true,
+          "negate": false,
+          "caseInsensitive": false
+        },
+        "customDescriptionFilter": {
+          "operator": "CONTAINS",
+          "value": "bitcoin",
+          "enabled": true,
+          "negate": false,
+          "caseInsensitive": true
+        }
+      }
+    }
+  ]
+}

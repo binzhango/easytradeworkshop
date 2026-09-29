@@ -1,0 +1,43 @@
+{
+  "name": "Bitcoin Payment Created - Volume Spike",
+  "description": "Alert when Bitcoin payment creation rate spikes abnormally",
+  "enabled": true,
+  "metricId": "bitcoin.payments.created",
+  "monitoringStrategy": {
+    "type": "STATIC_THRESHOLD",
+    "violatingSamples": 3,
+    "samples": 5,
+    "dealertingSamples": 5,
+    "threshold": 100.0,
+    "alertCondition": "ABOVE",
+    "unit": "UNSPECIFIED"
+  },
+  "eventType": "CUSTOM_ALERT",
+  "eventEntityDimensionKey": "dt.entity.service",
+  "alertingScope": [
+    {
+      "filterType": "TAG",
+      "tagFilter": {
+        "context": "CONTEXTLESS",
+        "key": "app",
+        "value": "bitcoin-payment-service"
+      }
+    }
+  ],
+  "eventTemplate": {
+    "title": "Bitcoin Payment Volume Spike Detected",
+    "description": "Payment creation rate exceeded 100 requests/minute. Current rate: {metricValue}. This may indicate abnormal usage or potential attack.",
+    "eventType": "CUSTOM_ALERT",
+    "davisMerge": true,
+    "metadata": [
+      {
+        "metadataKey": "component",
+        "metadataValue": "bitcoin-payments"
+      },
+      {
+        "metadataKey": "severity",
+        "metadataValue": "warning"
+      }
+    ]
+  }
+}

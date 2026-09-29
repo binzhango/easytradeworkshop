@@ -17,6 +17,11 @@ dependencies:
     version: "0.1.0"
     condition: aggregator-service.enabled
   - name: app
+    alias: bitcoin-payment-service
+    repository: "file://./charts/app"
+    version: "0.1.0"
+    condition: bitcoin-payment-service.enabled
+  - name: app
     alias: broker-service
     repository: "file://./charts/app"
     version: "0.1.0"

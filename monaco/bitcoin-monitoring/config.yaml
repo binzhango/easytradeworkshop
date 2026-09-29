@@ -1,0 +1,72 @@
+configs:
+  - id: bitcoin-payment-availability-slo
+    type:
+      api: slo-v2
+    config:
+      name: Bitcoin Payment Service - Availability
+      template: slo/availability-slo.json
+      skip: false
+
+  - id: bitcoin-payment-latency-slo
+    type:
+      api: slo-v2
+    config:
+      name: Bitcoin Payment Service - Latency
+      template: slo/latency-slo.json
+      skip: false
+
+  - id: bitcoin-confirmation-latency-slo
+    type:
+      api: slo-v2
+    config:
+      name: Bitcoin Payment - Confirmation Latency
+      template: slo/confirmation-latency-slo.json
+      skip: false
+
+  - id: bitcoin-high-error-rate-alert
+    type:
+      api: alerting-profile
+    config:
+      name: Bitcoin Payment - High Error Rate
+      template: alerting/high-error-rate.json
+      skip: false
+
+  - id: bitcoin-service-down-alert
+    type:
+      api: alerting-profile
+    config:
+      name: Bitcoin Payment - Service Down
+      template: alerting/service-down.json
+      skip: false
+
+  - id: bitcoin-slow-confirmations-alert
+    type:
+      api: alerting-profile
+    config:
+      name: Bitcoin Payment - Slow Confirmations
+      template: alerting/slow-confirmations.json
+      skip: false
+
+  - id: bitcoin-circuit-breaker-alert
+    type:
+      api: alerting-profile
+    config:
+      name: Bitcoin Payment - Circuit Breaker Open
+      template: alerting/circuit-breaker.json
+      skip: false
+
+  - id: bitcoin-payments-dashboard
+    type:
+      api: dashboard
+    config:
+      name: Bitcoin Payments Overview
+      template: dashboard/bitcoin-overview.json
+      skip: false
+
+  - id: bitcoin-payment-created-event
+    type:
+      api: metric-events
+    config:
+      name: Bitcoin Payment Created - Volume Spike
+      template: metric-events/payment-spike.json
+      skip: false

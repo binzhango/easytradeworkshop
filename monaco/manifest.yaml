@@ -6,6 +6,7 @@ projects:
   - name: bizflow
   - name: custom-service
   - name: management-zone
+  - name: bitcoin-monitoring
   - name: easytrade-validation
     path: easytrade-validation
     type: grouping

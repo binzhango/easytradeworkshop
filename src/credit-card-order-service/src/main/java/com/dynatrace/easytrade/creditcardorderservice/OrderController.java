@@ -130,10 +130,8 @@ public class OrderController {
         logger.info("Getting latest status for accountId: " + accountId);
 
         try (Connection conn = dbHelper.getConnection()) {
-            final Client client = openFeatureAPI.getClient();
-            if (client.getBooleanValue("credit_card_meltdown", false)) {
-                CountSequenceTotal(5, 2, 14);
-            }
+            // Removed credit_card_meltdown feature flag check that was causing division by zero
+            // This was a chaos engineering pattern that should not be in production code
 
             Optional<CreditCardOrderStatus> status = dbHelper.getLastOrderStatusForAccountId(conn, accountId);
             return status
@@ -309,26 +307,5 @@ public class OrderController {
     private ResponseEntity<StandardResponse> handleSQLException(SQLException e) {
         return buildResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR, "An exception occurred!",
                 null, null, e.getMessage(), true);
-    }
-
-    private int CountSequenceTotal(int firstElement, int step, int count)
-    {
-        int tmpFirstElement = firstElement + 7;
-        int tmpStep = step + 2;
-        int tmpCount = count + 13;
-
-        return CountArythmeticSequenceTotal(tmpFirstElement, tmpStep, tmpCount);
-    }
-
-    private int CountArythmeticSequenceTotal(int firstElement, int step, int count)
-    {
-        // this has a wrong value (normally would be 2), because we want to create an exception!
-        int theGreatDivider = 0;
-
-        int lastElement = firstElement + (step * (count - 1));
-        // deepcode ignore DivisionByZero: exception should be thrown here
-        int total = (firstElement + lastElement) * count / theGreatDivider;
-
-        return total;
     }
 }
