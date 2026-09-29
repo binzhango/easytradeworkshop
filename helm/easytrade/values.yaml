@@ -44,6 +44,38 @@ aggregator-service:
       cpu: 200m
       memory: 30Mi
 
+bitcoin-payment-service:
+  enabled: true
+  env:
+    REDIS_HOST: "{{ .Release.Name }}-redis"
+    REDIS_PORT: "6379"
+    RABBITMQ_HOST: "{{ .Release.Name }}-rabbitmq"
+    RABBITMQ_PORT: "5672"
+    RABBITMQ_USERNAME: "userxxx"
+    RABBITMQ_PASSWORD: "passxxx"
+    FEATURE_FLAG_SERVICE_URL: "http://{{ .Release.Name }}-feature-flag-service:8080"
+    BLOCKCHAIN_API_URL: "https://api.blockcypher.com/v1/btc/main"
+  envFromSecret:
+    MSSQL_CONNECTIONSTRING:
+      name: "{{ .Release.Name }}-connection-strings"
+      key: "JAVA_CONNECTION_STRING"
+  resources:
+    requests:
+      cpu: 200m
+      memory: 256Mi
+    limits:
+      cpu: 1000m
+      memory: 512Mi
+  service:
+    enabled: true
+    port: 8080
+  autoscaling:
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 15
+    targetCPUUtilizationPercentage: 70
+    targetMemoryUtilizationPercentage: 80
+
 broker-service:
   enabled: true
   env:
@@ -53,6 +85,7 @@ broker-service:
     FEATURE_FLAG_SERVICE_PROTOCOL: http
     FEATURE_FLAG_SERVICE_BASE_URL: "{{ .Release.Name }}-feature-flag-service"
     FEATURE_FLAG_SERVICE_PORT: "8080"
+    BITCOIN_PAYMENT_SERVICE_URL: "http://{{ .Release.Name }}-bitcoin-payment-service:8080"
     PROXY_PREFIX: "broker-service"
   envFromSecret:
     MSSQL_CONNECTIONSTRING:

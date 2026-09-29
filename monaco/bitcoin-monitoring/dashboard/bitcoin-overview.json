@@ -1,0 +1,467 @@
+{
+  "dashboardMetadata": {
+    "name": "Bitcoin Payments Overview",
+    "shared": true,
+    "owner": "easytrade",
+    "dashboardFilter": {
+      "timeframe": "-2h",
+      "managementZone": null
+    },
+    "tags": ["bitcoin", "payments", "easytrade"]
+  },
+  "tiles": [
+    {
+      "name": "Payment Request Rate",
+      "tileType": "DATA_EXPLORER",
+      "configured": true,
+      "bounds": {
+        "top": 0,
+        "left": 0,
+        "width": 304,
+        "height": 304
+      },
+      "tileFilter": {},
+      "customName": "Payment Requests per Minute",
+      "queries": [
+        {
+          "id": "A",
+          "metric": "builtin:service.requestCount.server",
+          "spaceAggregation": "SUM",
+          "timeAggregation": "DEFAULT",
+          "splitBy": [],
+          "filterBy": {
+            "filterOperator": "AND",
+            "nestedFilters": [],
+            "criteria": [
+              {
+                "key": "dt.entity.service",
+                "operator": "EQUALS",
+                "value": "SERVICE-BITCOIN_PAYMENT"
+              }
+            ]
+          },
+          "rate": "MINUTE",
+          "enabled": true
+        }
+      ],
+      "visualConfig": {
+        "type": "GRAPH_CHART",
+        "global": {},
+        "rules": [],
+        "axes": {
+          "xAxis": {
+            "visible": true
+          },
+          "yAxes": []
+        },
+        "thresholds": []
+      }
+    },
+    {
+      "name": "Error Rate",
+      "tileType": "DATA_EXPLORER",
+      "configured": true,
+      "bounds": {
+        "top": 0,
+        "left": 304,
+        "width": 304,
+        "height": 304
+      },
+      "tileFilter": {},
+      "customName": "Error Rate (%)",
+      "queries": [
+        {
+          "id": "A",
+          "metric": "builtin:service.errors.server.rate",
+          "spaceAggregation": "AVG",
+          "timeAggregation": "DEFAULT",
+          "splitBy": [],
+          "filterBy": {
+            "filterOperator": "AND",
+            "nestedFilters": [],
+            "criteria": [
+              {
+                "key": "dt.entity.service",
+                "operator": "EQUALS",
+                "value": "SERVICE-BITCOIN_PAYMENT"
+              }
+            ]
+          },
+          "enabled": true
+        }
+      ],
+      "visualConfig": {
+        "type": "GRAPH_CHART",
+        "global": {},
+        "rules": [
+          {
+            "matcher": "A:",
+            "properties": {
+              "color": "DEFAULT"
+            },
+            "seriesOverrides": []
+          }
+        ],
+        "axes": {
+          "xAxis": {
+            "visible": true
+          },
+          "yAxes": [
+            {
+              "visible": true,
+              "min": 0,
+              "max": 100,
+              "position": "LEFT",
+              "queryIds": ["A"],
+              "defaultAxis": true
+            }
+          ]
+        },
+        "thresholds": [
+          {
+            "axisTarget": "LEFT",
+            "rules": [
+              {
+                "color": "#7dc540"
+              },
+              {
+                "value": 1,
+                "color": "#f5d30f"
+              },
+              {
+                "value": 5,
+                "color": "#dc172a"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "Response Time",
+      "tileType": "DATA_EXPLORER",
+      "configured": true,
+      "bounds": {
+        "top": 0,
+        "left": 608,
+        "width": 304,
+        "height": 304
+      },
+      "tileFilter": {},
+      "customName": "Response Time (p50, p95, p99)",
+      "queries": [
+        {
+          "id": "A",
+          "metric": "builtin:service.response.time",
+          "spaceAggregation": "MEDIAN",
+          "timeAggregation": "DEFAULT",
+          "splitBy": [],
+          "filterBy": {
+            "filterOperator": "AND",
+            "nestedFilters": [],
+            "criteria": [
+              {
+                "key": "dt.entity.service",
+                "operator": "EQUALS",
+                "value": "SERVICE-BITCOIN_PAYMENT"
+              }
+            ]
+          },
+          "enabled": true
+        },
+        {
+          "id": "B",
+          "metric": "builtin:service.response.time",
+          "spaceAggregation": "PERCENTILE",
+          "percentile": 95,
+          "timeAggregation": "DEFAULT",
+          "splitBy": [],
+          "filterBy": {
+            "filterOperator": "AND",
+            "nestedFilters": [],
+            "criteria": [
+              {
+                "key": "dt.entity.service",
+                "operator": "EQUALS",
+                "value": "SERVICE-BITCOIN_PAYMENT"
+              }
+            ]
+          },
+          "enabled": true
+        },
+        {
+          "id": "C",
+          "metric": "builtin:service.response.time",
+          "spaceAggregation": "PERCENTILE",
+          "percentile": 99,
+          "timeAggregation": "DEFAULT",
+          "splitBy": [],
+          "filterBy": {
+            "filterOperator": "AND",
+            "nestedFilters": [],
+            "criteria": [
+              {
+                "key": "dt.entity.service",
+                "operator": "EQUALS",
+                "value": "SERVICE-BITCOIN_PAYMENT"
+              }
+            ]
+          },
+          "enabled": true
+        }
+      ],
+      "visualConfig": {
+        "type": "GRAPH_CHART",
+        "global": {},
+        "rules": [
+          {
+            "matcher": "A:",
+            "properties": {
+              "color": "DEFAULT",
+              "seriesType": "LINE"
+            }
+          },
+          {
+            "matcher": "B:",
+            "properties": {
+              "color": "YELLOW",
+              "seriesType": "LINE"
+            }
+          },
+          {
+            "matcher": "C:",
+            "properties": {
+              "color": "RED",
+              "seriesType": "LINE"
+            }
+          }
+        ],
+        "axes": {
+          "xAxis": {
+            "visible": true
+          },
+          "yAxes": []
+        },
+        "thresholds": [
+          {
+            "axisTarget": "LEFT",
+            "rules": [
+              {
+                "color": "#7dc540"
+              },
+              {
+                "value": 200,
+                "color": "#f5d30f"
+              },
+              {
+                "value": 500,
+                "color": "#dc172a"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "Payments Created",
+      "tileType": "DATA_EXPLORER",
+      "configured": true,
+      "bounds": {
+        "top": 304,
+        "left": 0,
+        "width": 304,
+        "height": 304
+      },
+      "tileFilter": {},
+      "customName": "Payments Created (Total)",
+      "queries": [
+        {
+          "id": "A",
+          "metric": "bitcoin.payments.created",
+          "spaceAggregation": "SUM",
+          "timeAggregation": "DEFAULT",
+          "splitBy": [],
+          "enabled": true
+        }
+      ],
+      "visualConfig": {
+        "type": "SINGLE_VALUE",
+        "global": {},
+        "rules": [],
+        "axes": {},
+        "thresholds": []
+      }
+    },
+    {
+      "name": "Payments Confirmed",
+      "tileType": "DATA_EXPLORER",
+      "configured": true,
+      "bounds": {
+        "top": 304,
+        "left": 304,
+        "width": 304,
+        "height": 304
+      },
+      "tileFilter": {},
+      "customName": "Payments Confirmed (Total)",
+      "queries": [
+        {
+          "id": "A",
+          "metric": "bitcoin.payments.confirmed",
+          "spaceAggregation": "SUM",
+          "timeAggregation": "DEFAULT",
+          "splitBy": [],
+          "enabled": true
+        }
+      ],
+      "visualConfig": {
+        "type": "SINGLE_VALUE",
+        "global": {},
+        "rules": [],
+        "axes": {},
+        "thresholds": []
+      }
+    },
+    {
+      "name": "Active DB Connections",
+      "tileType": "DATA_EXPLORER",
+      "configured": true,
+      "bounds": {
+        "top": 304,
+        "left": 608,
+        "width": 304,
+        "height": 304
+      },
+      "tileFilter": {},
+      "customName": "HikariCP Active Connections",
+      "queries": [
+        {
+          "id": "A",
+          "metric": "bitcoin.db.connection.pool.active",
+          "spaceAggregation": "AVG",
+          "timeAggregation": "DEFAULT",
+          "splitBy": [],
+          "enabled": true
+        }
+      ],
+      "visualConfig": {
+        "type": "GRAPH_CHART",
+        "global": {},
+        "rules": [],
+        "axes": {
+          "xAxis": {
+            "visible": true
+          },
+          "yAxes": []
+        },
+        "thresholds": [
+          {
+            "axisTarget": "LEFT",
+            "rules": [
+              {
+                "color": "#7dc540"
+              },
+              {
+                "value": 15,
+                "color": "#f5d30f"
+              },
+              {
+                "value": 18,
+                "color": "#dc172a"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "Circuit Breaker State",
+      "tileType": "DATA_EXPLORER",
+      "configured": true,
+      "bounds": {
+        "top": 608,
+        "left": 0,
+        "width": 608,
+        "height": 304
+      },
+      "tileFilter": {},
+      "customName": "Circuit Breaker State (0=Closed, 1=Open)",
+      "queries": [
+        {
+          "id": "A",
+          "metric": "bitcoin.circuit.breaker.state",
+          "spaceAggregation": "MAX",
+          "timeAggregation": "DEFAULT",
+          "splitBy": ["name"],
+          "enabled": true
+        }
+      ],
+      "visualConfig": {
+        "type": "GRAPH_CHART",
+        "global": {},
+        "rules": [],
+        "axes": {
+          "xAxis": {
+            "visible": true
+          },
+          "yAxes": []
+        },
+        "thresholds": []
+      }
+    },
+    {
+      "name": "Cache Hit Rate",
+      "tileType": "DATA_EXPLORER",
+      "configured": true,
+      "bounds": {
+        "top": 608,
+        "left": 608,
+        "width": 304,
+        "height": 304
+      },
+      "tileFilter": {},
+      "customName": "Redis Cache Hit Rate (%)",
+      "queries": [
+        {
+          "id": "A",
+          "metric": "bitcoin.cache.hit.rate",
+          "spaceAggregation": "AVG",
+          "timeAggregation": "DEFAULT",
+          "splitBy": [],
+          "enabled": true
+        }
+      ],
+      "visualConfig": {
+        "type": "SINGLE_VALUE",
+        "global": {},
+        "rules": [
+          {
+            "matcher": "A:",
+            "properties": {
+              "color": "DEFAULT"
+            }
+          }
+        ],
+        "axes": {},
+        "thresholds": [
+          {
+            "axisTarget": "LEFT",
+            "rules": [
+              {
+                "color": "#dc172a"
+              },
+              {
+                "value": 70,
+                "color": "#f5d30f"
+              },
+              {
+                "value": 85,
+                "color": "#7dc540"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

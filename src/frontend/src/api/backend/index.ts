@@ -1,4 +1,5 @@
 import { EnvProxy } from "../../env"
+import { BitcoinBackend } from "./bitcoin"
 import { CreditCardBackend } from "./creditCard"
 import { ProblemPatternBackend } from "./problemPatterns"
 import { InstrumentBackend } from "./instruments"
@@ -25,5 +26,6 @@ export const backends = {
         EnvProxy.getBrokerServiceUrl(),
         EnvProxy.getCreditCardServiceUrl()
     ),
+    bitcoin: new BitcoinBackend(EnvProxy.getBrokerServiceUrl()),
     versions: new VersionBackend(),
 }

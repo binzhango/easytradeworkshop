@@ -1,0 +1,39 @@
+{
+  "displayName": "Bitcoin Payment - Service Down",
+  "rules": [
+    {
+      "severityLevel": "AVAILABILITY",
+      "tagFilter": {
+        "includeMode": "INCLUDE_ANY",
+        "tagFilters": [
+          {
+            "context": "CONTEXTLESS",
+            "key": "app",
+            "value": "bitcoin-payment-service"
+          }
+        ]
+      },
+      "delayInMinutes": 2
+    }
+  ],
+  "managementZoneId": null,
+  "eventTypeFilters": [
+    {
+      "predefinedEventFilter": {
+        "eventType": "AVAILABILITY_EVENT",
+        "negate": false
+      }
+    },
+    {
+      "customEventFilter": {
+        "customTitleFilter": {
+          "operator": "CONTAINS",
+          "value": "not available",
+          "enabled": true,
+          "negate": false,
+          "caseInsensitive": true
+        }
+      }
+    }
+  ]
+}

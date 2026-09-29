@@ -1,0 +1,16 @@
+{
+  "name": "Bitcoin Payment - Confirmation Latency",
+  "description": "Confirmation time SLO for Bitcoin payments. Target: 95% of payments confirmed within 15 minutes over 24 hours",
+  "enabled": true,
+  "metricExpression": "(100)*(bitcoin.confirmation.duration:percentile(95))",
+  "evaluationType": "AGGREGATE",
+  "filter": "",
+  "target": 900000.0,
+  "warning": 600000.0,
+  "timeframe": "-1d",
+  "errorBudgetBurnRate": {
+    "burnRateVisualizationEnabled": true,
+    "fastBurnThreshold": 5.0
+  },
+  "useRateMetric": false
+}

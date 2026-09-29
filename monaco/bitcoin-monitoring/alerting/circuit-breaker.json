@@ -1,0 +1,40 @@
+{
+  "displayName": "Bitcoin Payment - Circuit Breaker Open",
+  "rules": [
+    {
+      "severityLevel": "RESOURCE",
+      "tagFilter": {
+        "includeMode": "INCLUDE_ANY",
+        "tagFilters": [
+          {
+            "context": "CONTEXTLESS",
+            "key": "app",
+            "value": "bitcoin-payment-service"
+          }
+        ]
+      },
+      "delayInMinutes": 5
+    }
+  ],
+  "managementZoneId": null,
+  "eventTypeFilters": [
+    {
+      "customEventFilter": {
+        "customTitleFilter": {
+          "operator": "CONTAINS",
+          "value": "circuit breaker",
+          "enabled": true,
+          "negate": false,
+          "caseInsensitive": true
+        },
+        "customDescriptionFilter": {
+          "operator": "CONTAINS",
+          "value": "open",
+          "enabled": true,
+          "negate": false,
+          "caseInsensitive": true
+        }
+      }
+    }
+  ]
+}

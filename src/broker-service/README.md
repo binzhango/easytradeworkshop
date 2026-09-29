@@ -256,6 +256,175 @@ curl -X 'GET' \
 -H 'accept: text/plain'
 ```
 
+### Bitcoin Payments
+
+---
+
+#### `POST` **/v1/bitcoin/{accountId}/payment** `Create Bitcoin payment for stock purchase`
+
+##### Parameters
+
+| name           | type     | data type | description   | source    |
+| -------------- | -------- | --------- | ------------- | --------- |
+| `accountId`    | required | int       | Account ID    | Path      |
+| `amount`       | required | decimal   | Amount in BTC | Body JSON |
+| `instrumentId` | required | int       | Instrument ID | Body JSON |
+| `purpose`      | optional | string    | Purpose       | Body JSON |
+
+##### Responses
+
+| http code | content-type       | response                                                        |
+| --------- | ------------------ | --------------------------------------------------------------- |
+| `201`     | `application/json` | Payment details with wallet address and QR code                 |
+| `400`     | `application/json` | `{"code":"400","message":"Invalid request"}`                    |
+| `404`     | `application/json` | `{"code":"404","message":"Account with id {id} doesn't exist"}` |
+| `502`     | `application/json` | `{"code":"502","message":"Bitcoin service unavailable"}`        |
+
+##### Example of request JSON body
+
+```json
+{
+  "amount": 0.005,
+  "instrumentId": 1,
+  "purpose": "stock_purchase"
+}
+```
+
+##### Example of response JSON body
+
+```json
+{
+  "paymentId": "550e8400-e29b-41d4-a716-446655440000",
+  "walletAddress": "bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh",
+  "amount": 0.005,
+  "currency": "BTC",
+  "status": "PENDING",
+  "expiresAt": "2026-09-30T20:00:00Z",
+  "qrCode": "data:image/png;base64,...",
+  "confirmations": 0,
+  "createdAt": "2026-09-29T20:00:00Z"
+}
+```
+
+##### Example cURL
+
+```bash
+curl -X 'POST' \
+'http://localhost/broker-service/v1/bitcoin/6/payment' \
+-H 'accept: application/json' \
+-H 'Content-Type: application/json' \
+-d '{
+  "amount": 0.005,
+  "instrumentId": 1,
+  "purpose": "stock_purchase"
+}'
+```
+
+---
+
+#### `GET` **/v1/bitcoin/payment/{paymentId}** `Get Bitcoin payment status`
+
+##### Parameters
+
+| name        | type     | data type | description | source |
+| ----------- | -------- | --------- | ----------- | ------ |
+| `paymentId` | required | string    | Payment ID  | Path   |
+
+##### Responses
+
+| http code | content-type       | response                                             |
+| --------- | ------------------ | ---------------------------------------------------- |
+| `200`     | `application/json` | Payment status and details                           |
+| `404`     | `application/json` | `{"code":"404","message":"Payment not found"}`       |
+| `502`     | `application/json` | `{"code":"502","message":"Bitcoin service unavailable"}` |
+
+##### Example of response JSON body
+
+```json
+{
+  "paymentId": "550e8400-e29b-41d4-a716-446655440000",
+  "walletAddress": "bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh",
+  "amount": 0.005,
+  "currency": "BTC",
+  "status": "CONFIRMED",
+  "confirmations": 3,
+  "transactionHash": "a1b2c3d4e5f6...",
+  "createdAt": "2026-09-29T20:00:00Z",
+  "confirmedAt": "2026-09-29T20:15:00Z"
+}
+```
+
+##### Example cURL
+
+```bash
+curl -X 'GET' \
+'http://localhost/broker-service/v1/bitcoin/payment/550e8400-e29b-41d4-a716-446655440000' \
+-H 'accept: application/json'
+```
+
+---
+
+#### `GET` **/v1/bitcoin/{accountId}/wallet** `Get Bitcoin wallet for account`
+
+##### Parameters
+
+| name        | type     | data type | description | source |
+| ----------- | -------- | --------- | ----------- | ------ |
+| `accountId` | required | int       | Account ID  | Path   |
+
+##### Responses
+
+| http code | content-type       | response                                                        |
+| --------- | ------------------ | --------------------------------------------------------------- |
+| `200`     | `application/json` | Wallet address and balance                                      |
+| `404`     | `application/json` | `{"code":"404","message":"Wallet not found"}`                   |
+| `502`     | `application/json` | `{"code":"502","message":"Bitcoin service unavailable"}`        |
+
+##### Example of response JSON body
+
+```json
+{
+  "accountId": 6,
+  "walletAddress": "bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh",
+  "balance": 0.123,
+  "createdAt": "2026-09-29T10:00:00Z"
+}
+```
+
+##### Example cURL
+
+```bash
+curl -X 'GET' \
+'http://localhost/broker-service/v1/bitcoin/6/wallet' \
+-H 'accept: application/json'
+```
+
+---
+
+#### `GET` **/v1/bitcoin/payment/{paymentId}/confirmed** `Check if payment is confirmed`
+
+##### Parameters
+
+| name        | type     | data type | description | source |
+| ----------- | -------- | --------- | ----------- | ------ |
+| `paymentId` | required | string    | Payment ID  | Path   |
+
+##### Responses
+
+| http code | content-type       | response                                                 |
+| --------- | ------------------ | -------------------------------------------------------- |
+| `200`     | `application/json` | `true` or `false`                                        |
+| `404`     | `application/json` | `{"code":"404","message":"Payment not found"}`           |
+| `502`     | `application/json` | `{"code":"502","message":"Bitcoin service unavailable"}` |
+
+##### Example cURL
+
+```bash
+curl -X 'GET' \
+'http://localhost/broker-service/v1/bitcoin/payment/550e8400-e29b-41d4-a716-446655440000/confirmed' \
+-H 'accept: application/json'
+```
+
 ### Trades
 
 ---

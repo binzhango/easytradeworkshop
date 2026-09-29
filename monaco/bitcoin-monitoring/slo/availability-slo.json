@@ -1,0 +1,16 @@
+{
+  "name": "Bitcoin Payment Service - Availability",
+  "description": "Availability SLO for Bitcoin payment creation endpoint. Target: 99.5% success rate over 7 days",
+  "enabled": true,
+  "metricExpression": "(100)*(builtin:service.errors.server.successCount:filter(eq(\"dt.entity.service\",\"SERVICE-BITCOIN_PAYMENT\"))/(builtin:service.requestCount.server:filter(eq(\"dt.entity.service\",\"SERVICE-BITCOIN_PAYMENT\"))))",
+  "evaluationType": "AGGREGATE",
+  "filter": "",
+  "target": 99.5,
+  "warning": 99.7,
+  "timeframe": "-1w",
+  "errorBudgetBurnRate": {
+    "burnRateVisualizationEnabled": true,
+    "fastBurnThreshold": 10.0
+  },
+  "useRateMetric": false
+}

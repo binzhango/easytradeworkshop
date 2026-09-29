@@ -1,0 +1,12 @@
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: bitcoin-payment-service
+  labels:
+    app: bitcoin-payment-service
+    component: payment
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app: bitcoin-payment-service
